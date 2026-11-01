@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101713">
+<title>TotK Recomp | Bug 反馈指南</title>
+<style>
+:root{
+ --bg:#101713;--surface:#18221c;--surface2:#202c24;--line:#344438;
+ --text:#edf4ed;--muted:#a8b8aa;--green:#a8d66d;--green2:#d3edaa;
+ --warn:#f0c878;--code:#101a14;--shadow:0 18px 50px #0005;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(ellipse at 12% 0%,#263b2b 0,transparent 34%),var(--bg);color:var(--text);font:16px/1.65 system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:var(--green2);text-underline-offset:3px}
+.wrap{max-width:1060px;margin:auto;padding:34px 22px 70px}
+.topline{display:flex;align-items:center;gap:10px;color:var(--green);font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 16px var(--green)}
+.hero{padding:36px 0 28px;border-bottom:1px solid var(--line)}
+h1{font-size:clamp(34px,6vw,58px);line-height:1.04;letter-spacing:-.045em;margin:18px 0 14px;max-width:780px}
+h1 span{color:var(--green)}
+.lead{font-size:18px;color:var(--muted);max-width:720px;margin:0}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 17px;border-radius:9px;text-decoration:none;font-weight:750;border:1px solid var(--line);background:var(--surface2);color:var(--text)}
+.btn.primary{background:var(--green);color:#142013;border-color:var(--green)}
+.btn:hover{filter:brightness(1.08)}
+.notice{display:grid;grid-template-columns:28px 1fr;gap:12px;background:#293321;border:1px solid #536640;border-radius:12px;padding:16px 18px;margin-top:24px;color:#eaf4dd}
+.notice strong{color:var(--green2)}
+.layout{display:grid;grid-template-columns:235px minmax(0,1fr);gap:26px;margin-top:28px}
+nav{position:sticky;top:18px;align-self:start;background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:16px}
+nav b{display:block;color:var(--muted);font-size:11px;letter-spacing:.13em;text-transform:uppercase;margin:2px 8px 10px}
+nav a{display:block;color:var(--muted);padding:7px 9px;border-radius:7px;text-decoration:none;font-size:14px}
+nav a:hover{background:var(--surface2);color:var(--text)}
+main{min-width:0}
+section{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:23px;margin-bottom:16px;box-shadow:var(--shadow)}
+.kicker{color:var(--green);font-size:11px;font-weight:850;letter-spacing:.14em;text-transform:uppercase}
+h2{font-size:22px;line-height:1.25;margin:5px 0 5px}
+.cn{color:var(--muted);margin:0 0 17px}
+.step{display:flex;gap:13px;margin:14px 0 0}
+.num{flex:0 0 29px;height:29px;display:grid;place-items:center;border-radius:8px;background:#34452f;color:var(--green2);font-weight:850}
+.step p{margin:0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.info{padding:14px;background:var(--surface2);border:1px solid var(--line);border-radius:10px}
+.info b{display:block;margin-bottom:3px}
+.info p{color:var(--muted);font-size:14px;margin:0}
+code{font: .92em ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--code);border:1px solid var(--line);padding:2px 6px;border-radius:5px;color:var(--green2);overflow-wrap:anywhere}
+ul{padding-left:21px;color:var(--muted)}
+li{margin:5px 0}
+.template-head{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+.copy{border:0;border-radius:8px;background:var(--green);color:#152014;padding:10px 14px;font:inherit;font-weight:800;cursor:pointer}
+.copy:hover{filter:brightness(1.08)}
+textarea{width:100%;min-height:720px;resize:vertical;background:var(--code);color:#e5f1e4;border:1px solid var(--line);border-radius:10px;padding:17px;font:13px/1.65 ui-monospace,SFMono-Regular,Consolas,monospace;margin-top:13px;tab-size:2}
+.small{font-size:13px;color:var(--muted)}
+.warning{border-left:3px solid var(--warn);padding:11px 14px;background:#332d20;border-radius:0 8px 8px 0;color:#ead9b5;margin-top:14px}
+.links{display:flex;flex-wrap:wrap;gap:10px;margin-top:15px}
+footer{padding:14px 2px;color:#829286;font-size:12px}
+@media(max-width:760px){.layout{grid-template-columns:1fr}nav{position:static;display:grid;grid-template-columns:1fr 1fr}nav b{grid-column:1/-1}.grid2{grid-template-columns:1fr}.wrap{padding:22px 14px 50px}section{padding:18px}.hero{padding-top:25px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+ <div class="topline"><span class="dot"></span> COMMUNITY FIELD GUIDE <span style="color:#718374">/</span> TOTK RECOMP</div>
+ <h1>遇到问题？<br><span>把线索交给开发者。</span></h1>
+ <p class="lead">一份面向玩家的 Bug 反馈指南。跟着步骤收集信息，把英文模板贴进 GitHub Issue，让开发者更容易判断问题、复现问题。</p>
+ <div class="hero-actions">
+  <a class="btn primary" href="https://github.com/valentderah/totk-pc-recomp/issues" target="_blank" rel="noopener">前往 GitHub 提交 ↗</a>
+  <a class="btn" href="https://gh-proxy.com/https://github.com/valentderah/totk-pc-recomp/issues" target="_blank" rel="noopener">大陆访问加速 ↗</a>
+ </div>
+ <div class="notice"><div>✦</div><div><strong>提交时使用英文模板。</strong><br>GitHub 项目主要使用英文交流。本指南用中文解释每一项，下面提供可直接复制的英文 Issue 内容。不知道的字段写 <code>Unknown</code>，不适用的写 <code>N/A</code>，不要猜测。</div></div>
+</header>
+
+<div class="layout">
+<nav aria-label="页面目录">
+ <b>ON THIS PAGE / 页面导航</b>
+ <a href="#flow">反馈流程</a><a href="#collect">收集信息</a>
+ <a href="#template">英文提交模板</a><a href="#attach">日志与附件</a>
+ <a href="#rules">提交注意事项</a>
+</nav>
+<main>
+<section id="flow">
+ <div class="kicker">01 / THE FLOW</div>
+ <h2>反馈流程</h2><p class="cn">不用先判断是不是项目 Bug。把现象和资料描述清楚，剩下的交给开发者分析。</p>
+ <div class="step"><span class="num">1</span><p><b>记录问题</b><br><span class="small">记下发生了什么、在哪个阶段发生，以及怎样触发。</span></p></div>
+ <div class="step"><span class="num">2</span><p><b>保存日志和系统信息</b><br><span class="small">尤其是完整的 <code>totk.log</code>，不要只截取最后几行。</span></p></div>
+ <div class="step"><span class="num">3</span><p><b>提交 GitHub Issue</b><br><span class="small">搜索是否已有相同问题；没有的话新建 Issue，粘贴英文模板并附上日志。</span></p></div>
+</section>
+
+<section id="collect">
+ <div class="kicker">02 / COLLECT THE CLUES</div>
+ <h2>提交前，准备好这几项</h2><p class="cn">这些信息能帮助开发者确认问题出现在哪个版本、哪类设备，以及能否在其他环境中复现。</p>
+ <div class="grid2">
+  <div class="info"><b>版本信息 / Version</b><p>打开游戏设置菜单（F1），查看标题栏中的 TotK Recomp 版本和游戏更新版本。</p></div>
+  <div class="info"><b>系统信息 / System info</b><p>F1 → Advanced → <code>Copy system info</code>，把复制的完整内容粘贴到 Issue。</p></div>
+  <div class="info"><b>运行日志 / Log</b><p>在 <code>totk.exe</code> 所在目录找到 <code>logs\totk.log</code>。异常发生后先保存，再重新启动游戏。</p></div>
+  <div class="info"><b>复现步骤 / Reproduction</b><p>按顺序写下操作过程。比如进入哪个场景、打开哪个菜单、执行什么动作后出现问题。</p></div>
+ </div>
+ <div class="warning">如果游戏已经崩溃或卡住，先保留当次日志。不要为了“再试一次”而先启动多次，避免错过最有用的那份日志。</div>
+</section>
+
+<section id="template">
+ <div class="kicker">03 / READY TO SUBMIT</div>
+ <div class="template-head"><div><h2>英文 Issue 模板</h2><p class="cn" style="margin-bottom:0">复制下面整段内容，粘贴到 GitHub 的 Bug Report 描述框，再按提示填写。</p></div><button class="copy" onclick="copyIssue()">复制英文模板</button></div>
+ <textarea id="issue" spellcheck="false">### Version
+- **TotK Recomp version:**
+- **Game update version:** 1.2.1 / 1.4.3
+
+### System information
+Please open the in-game settings (F1) → Advanced → click **Copy system info**, then paste the complete output below.
+
+```text
+Paste system info here
+```
+
+### Bug description
+- **What happened?**
+- **When did it happen?** (Installation / Startup / Title screen / Gameplay / When closing the game)
+- **How often does it happen?** (Every time / Sometimes / Happened once)
+- **Can you continue playing?** (Yes / No)
+
+### Steps to reproduce
+1.
+2.
+3.
+
+Please list the exact steps that trigger the issue. If it is not consistently reproducible, describe what you were doing immediately before it happened.
+
+### Expected behavior
+What did you expect to happen?
+
+### Actual behavior
+What happened instead?
+
+### Troubleshooting
+What have you already tried? Did any of these steps change the behavior?
+Write "None" if you have not tried anything.
+
+### Log file
+Attach the complete `logs\\totk.log` from the folder containing `totk.exe`.
+
+If the game crashed or froze, preserve the log from that session before launching the game again.
+
+### Screenshots
+Attach screenshots if they help demonstrate the issue. Please do not upload long gameplay recordings.
+
+### Additional information
+Add any other details that may help reproduce or investigate the issue.</textarea>
+ <p class="small">填写提示：不知道写 Unknown；不适用写 N/A。复现步骤尽量具体，日志请作为文件附件上传，不要只把日志内容截成图片。</p>
+</section>
+
+<section id="attach">
+ <div class="kicker">04 / LOGS & ATTACHMENTS</div>
+ <h2>日志和附件怎么准备</h2><p class="cn">日志通常比一句“打不开”更有用。请尽量提供问题发生时的完整记录。</p>
+ <ul>
+  <li>打开游戏安装目录，也就是 <code>totk.exe</code> 所在文件夹。</li>
+  <li>进入 <code>logs</code> 文件夹，找到 <code>totk.log</code>。</li>
+  <li>如果问题发生后又启动过游戏，之前的日志可能已轮换为 <code>totk.1.log</code> 等文件。请附上对应问题发生时的日志。</li>
+  <li>安装过程失败时，另外附上安装器日志：文件名以 <code>install</code> 开头的 `.log` 文件，以及 <code>lift-gen.log</code>。</li>
+  <li>截图可用于展示报错窗口、黑屏、贴图异常或卡住的画面。</li>
+ </ul>
+ <p class="small">请上传原始日志文件。不要只贴最后几行，因为问题线索可能出现在更早的位置。</p>
+</section>
+
+<section id="rules">
+ <div class="kicker">05 / BEFORE YOU POST</div>
+ <h2>提交前检查</h2><p class="cn">花半分钟检查一下，能减少来回追问，也能避免 Issue 因资料不足而难以处理。</p>
+ <ul>
+  <li>先搜索现有 Issues，确认没有相同问题。</li>
+  <li>版本号、系统信息和复现步骤尽量填写完整。</li>
+  <li>附上完整日志；如果有截图，也一并提供。</li>
+  <li>不要上传游戏本体、固件、密钥、提取出的游戏资源或包含游戏内容的文件。</li>
+ </ul>
+ <div class="links">
+  <a class="btn primary" href="https://github.com/valentderah/totk-pc-recomp/issues" target="_blank" rel="noopener">打开 GitHub Issues ↗</a>
+  <a class="btn" href="https://github.com/valentderah/totk-pc-recomp/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">查看项目贡献指南 ↗</a>
+ </div>
+</section>
+</main>
+</div>
+<footer>TotK Recomp · Community Bug Report Guide</footer>
+</div>
+<script>
+function copyIssue(){
+ const el=document.getElementById('issue');
+ el.focus();el.select();el.setSelectionRange(0,el.value.length);
+ const done=()=>{const b=document.querySelector('.copy');const old=b.textContent;b.textContent='已复制 ✓';setTimeout(()=>b.textContent=old,1800)};
+ if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(el.value).then(done).catch(fallback)}
+ else fallback();
+ function fallback(){try{document.execCommand('copy');done()}catch(e){alert('复制失败，请手动选择文本复制。')}}
+}
+</script>
+</body>
+</html>
